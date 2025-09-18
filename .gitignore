@@ -1,0 +1,103 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+kabancount
+kabancount-be
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Database files and directories
+./database/
+database/
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker volumes
+postgres-data/
+postgres-test-data/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+*.log
+logs/
+log/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Coverage reports
+coverage.out
+coverage.html
+c.out
+
+# Air live reload
+.air.toml
+tmp/
+
+# Configuration files that might contain secrets
+config.yaml
+config.yml
+config.json
+!config.example.*
+
+# Build artifacts
+dist/
+build/
+
+# Documentation generated files
+docs/build/
+
+# Node.js (if you add frontend later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock

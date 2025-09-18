@@ -1,0 +1,26 @@
+services:
+  db:
+    container_name: kabancount_db
+    image: postgres:15-alpine
+    volumes:
+    - "./database/postgres-data:/var/lib/postgresql/data"
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "kabancount"
+    restart: unless-stopped
+
+  test_db:
+    container_name: kabancount_test_db
+    image: postgres:15-alpine
+    volumes:
+    - "./database/postgres-test-data:/var/lib/postgresql/data"
+    ports:
+    - "5433:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "kabancount_test"
+    restart: unless-stopped
