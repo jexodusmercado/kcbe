@@ -110,28 +110,10 @@ func (ih *ItemHandler) HandleUpdateItem(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	if paramItem.Name != "" {
-		existingItem.Name = paramItem.Name
-	}
-
-	if paramItem.SKU != "" {
-		existingItem.SKU = paramItem.SKU
-	}
-
-	if paramItem.Description != nil {
-		existingItem.Description = paramItem.Description
-	}
-
-	if paramItem.CategoryID != uuid.Nil {
-		existingItem.CategoryID = paramItem.CategoryID
-	}
-
-	if paramItem.UnitPrice >= 0 {
-		existingItem.UnitPrice = paramItem.UnitPrice
-	}
-
-	if paramItem.ReorderLevel >= 0 {
-		existingItem.ReorderLevel = paramItem.ReorderLevel
+	if err := ih.validateCreateItemRequest(&paramItem); err != nil {
+		ih.logger.Printf("Validation error: %v", err)
+		utils.WriteJSON(w, http.StatusBadRequest, utils.Envelope{"error": err.Error()})
+		return
 	}
 
 	if existingItem.OrganizationID != user.OrganizationID {
@@ -235,16 +217,23 @@ func (ih *ItemHandler) validateCreateItemRequest(req *store.Item) error {
 		return errors.New("name is required")
 	}
 
-	if req.SKU == "" {
-		return errors.New("sku is required")
-	}
-
 	if req.UnitPrice < 0 {
-		return errors.New("unit_price must be non-negative")
+		return errors.New("unit_price is required")
 	}
 
-	if req.ReorderLevel < 0 {
-		return errors.New("reorder_level must be non-negative")
+	if len(req.Stock) == 0 {
+		return errors.New("stock cannot be empty")
+	}
+
+	for _, r := range req.Stock {
+		if r.LocationID == uuid.Nil {
+			return errors.New("location_id is required for stock entries")
+		}
+
+		if r.QuantityAvailable <= 0 {
+			return errors.New("quantity_available must be greater than zero for stock entries")
+		}
+
 	}
 
 	return nil

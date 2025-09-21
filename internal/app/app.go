@@ -21,6 +21,7 @@ type Application struct {
 	AuthHandler         *api.AuthHandler
 	ItemHandler         *api.ItemHandler
 	CategoryHandler     *api.CategoryHandler
+	LocationHandler     *api.LocationHandler
 	MiddlewareHandler   middleware.UserMiddleware
 	DB                  *sql.DB
 }
@@ -49,6 +50,7 @@ func NewApplication() (*Application, error) {
 	organizationStore := store.NewPostgresOrganizationStore(pgDB)
 	itemStore := store.NewPostgresItemStore(pgDB)
 	categoryStore := store.NewPostgresCategoryStore(pgDB)
+	locationStore := store.NewPostgresLocationStore(pgDB)
 
 	// our handlers will go here
 	userHandler := api.NewUserHandler(userStore, logger)
@@ -58,6 +60,7 @@ func NewApplication() (*Application, error) {
 	middlewareHandler := middleware.UserMiddleware{UserStore: userStore}
 	itemHandler := api.NewItemHandler(itemStore, logger)
 	categoryHandler := api.NewCategoryHandler(categoryStore, logger)
+	locationHandler := api.NewLocationHandler(locationStore, logger)
 
 	app := &Application{
 		Logger:              logger,
@@ -68,6 +71,7 @@ func NewApplication() (*Application, error) {
 		ItemHandler:         itemHandler,
 		CategoryHandler:     categoryHandler,
 		MiddlewareHandler:   middlewareHandler,
+		LocationHandler:     locationHandler,
 		DB:                  pgDB,
 	}
 

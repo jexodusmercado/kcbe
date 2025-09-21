@@ -29,6 +29,9 @@ func SetupRoutes(app *app.Application) *chi.Mux {
 
 		r.Post("/users", app.UserHandler.HandleCreateUser)
 
+		r.Post("/locations", app.LocationHandler.HandleCreateLocation)
+		r.Get("/locations", app.LocationHandler.HandleGetLocationsByOrganization)
+
 		r.Post("/items", app.ItemHandler.HandleCreateItem)
 		r.Get("/items", app.ItemHandler.HandleGetItemsByOrganization)
 		r.Get("/items/{id}", app.ItemHandler.HandleGetItemByID)
