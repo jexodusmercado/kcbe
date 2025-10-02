@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"kabancount/internal/middleware"
 	"kabancount/internal/store"
 	"kabancount/internal/utils"
 	"log"
@@ -144,4 +145,21 @@ func (oh *OrganizationHandler) HandleDeleteOrganization(w http.ResponseWriter, r
 	}
 
 	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"message": "Organization deleted successfully"})
+}
+
+func (oh *OrganizationHandler) HandleCurrentOrganization(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r)
+	orgData, err := oh.organizationStore.GetOrganizationByID(user.OrganizationID)
+	if err != nil {
+		oh.logger.Printf("Error retrieving current organization: %v", err)
+		utils.WriteJSON(w, http.StatusInternalServerError, utils.Envelope{"error": "Failed to retrieve current organization"})
+		return
+	}
+
+	if orgData == nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": orgData})
 }

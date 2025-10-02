@@ -74,8 +74,8 @@ coverage.html
 c.out
 
 # Air live reload
-.air.toml
 tmp/
+build-errors.log
 
 # Configuration files that might contain secrets
 config.yaml

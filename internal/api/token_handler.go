@@ -59,5 +59,5 @@ func (h *TokenHandler) HandleCreateToken(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"token": token})
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": token})
 }

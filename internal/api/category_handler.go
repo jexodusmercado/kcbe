@@ -203,7 +203,7 @@ func (ch *CategoryHandler) HandleGetCategoriesByOrganization(w http.ResponseWrit
 	}
 
 	utils.WriteJSON(w, http.StatusOK, utils.Envelope{
-		"items":     categories,
+		"data":      categories,
 		"count":     len(categories),
 		"total":     totalCategories,
 		"page":      page,

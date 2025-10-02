@@ -55,7 +55,7 @@ func (ih *ItemHandler) HandleCreateItem(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"item": createdItem})
+	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"data": createdItem})
 }
 
 func (ih *ItemHandler) HandleGetItemByID(w http.ResponseWriter, r *http.Request) {
@@ -73,7 +73,7 @@ func (ih *ItemHandler) HandleGetItemByID(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"item": item})
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": item})
 }
 
 func (ih *ItemHandler) HandleUpdateItem(w http.ResponseWriter, r *http.Request) {
@@ -128,7 +128,7 @@ func (ih *ItemHandler) HandleUpdateItem(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"item": updatedItem})
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": updatedItem})
 }
 
 func (ih *ItemHandler) HandleDeleteItem(w http.ResponseWriter, r *http.Request) {

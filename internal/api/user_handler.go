@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"kabancount/internal/middleware"
 	"kabancount/internal/store"
 	"kabancount/internal/utils"
 	"log"
@@ -87,6 +88,12 @@ func (u *UserHandler) HandleCreateUser(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"user": createdUser})
 
+}
+
+func (u *UserHandler) HandleGetCurrentUser(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r)
+
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": user})
 }
 
 func (u *UserHandler) validateRegisterRequest(req *registerUserRequest) error {

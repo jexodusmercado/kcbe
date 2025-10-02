@@ -221,7 +221,7 @@ Content-Type: application/json
 
 Response:
 {
-  "token": {
+  "data": {
     "plaintext": "jwt-token-here",
     "expiry": "2024-01-02T15:04:05Z"
   }

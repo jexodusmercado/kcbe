@@ -15,6 +15,29 @@ This is a Go backend application for "kabancount" - a web API service built with
 ## Development Commands
 
 ### Running the Application
+
+**Using Makefile (Recommended)**:
+```bash
+# Set up development environment (installs Air, starts databases, tidies modules)
+make setup-dev
+
+# Start development server with hot reload
+make dev
+
+# Run application directly
+make run
+
+# Build the application
+make build
+
+# Start PostgreSQL databases
+make docker-up
+
+# Stop PostgreSQL databases
+make docker-down
+```
+
+**Manual Commands**:
 ```bash
 # Start PostgreSQL database (includes test database)
 docker-compose up -d
@@ -41,7 +64,40 @@ docker exec -it kabancount_db psql -U postgres -d kabancount
 docker exec -it kabancount_test_db psql -U postgres -d kabancount_test
 ```
 
-### Go Commands
+### Development Commands
+
+**Makefile Commands (Full List)**:
+```bash
+# Development
+make help           # Show all available commands
+make setup-dev      # Set up development environment
+make dev            # Start with hot reload (Air)
+make start          # Alias for 'make dev'
+make stop           # Stop development server
+make restart        # Restart development server
+
+# Building & Testing
+make build          # Build the application binary
+make run            # Run the application directly
+make test           # Run all tests
+make test-coverage  # Run tests with coverage report
+make clean          # Clean build artifacts
+
+# Database Operations
+make docker-up      # Start PostgreSQL databases
+make docker-down    # Stop PostgreSQL databases
+make docker-reset   # Reset databases (fresh start)
+make docker-logs    # View database logs
+make db-connect     # Connect to main database
+make db-connect-test # Connect to test database
+
+# Code Quality
+make tidy           # Clean up Go modules
+make lint           # Run linter (requires golangci-lint)
+make all            # Build and test (CI/CD target)
+```
+
+**Manual Go Commands**:
 ```bash
 # Build the application
 go build
@@ -124,6 +180,9 @@ The application includes migrations for:
 - Configuration is environment-driven with sensible defaults
 - Migrations run automatically on application start using embedded filesystem
 - Clean architecture with clear separation between handlers, business logic, and data access
-- Uses Go 1.24.4 with standard HTTP server configuration (timeouts configured)
+- Uses Go 1.25.1 with standard HTTP server configuration (timeouts configured)
 - Docker Compose provides both main and test databases
 - Authentication required for most endpoints with role-based access control
+- **Air Integration**: Live reload for development with `.air.toml` configuration
+- **Makefile**: Comprehensive set of commands for development workflow
+- Hot reload excludes test files, database directories, and temporary files

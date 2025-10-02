@@ -54,7 +54,7 @@ func (lh *LocationHandler) HandleCreateLocation(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"location": createdLocation})
+	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"data": createdLocation})
 
 }
 
@@ -72,7 +72,7 @@ func (lh *LocationHandler) HandleGetLocationsByOrganization(w http.ResponseWrite
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"locations": locations})
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"data": locations})
 
 }
 

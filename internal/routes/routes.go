@@ -4,10 +4,20 @@ import (
 	"kabancount/internal/app"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 )
 
 func SetupRoutes(app *app.Application) *chi.Mux {
 	r := chi.NewRouter()
+
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173", "https://kabancount.exomercado.dev"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
 
 	r.Get("/healthcheck", app.HealthCheck)
 
@@ -26,6 +36,10 @@ func SetupRoutes(app *app.Application) *chi.Mux {
 			r.Put("/organizations/{id}", app.OrganizationHandler.HandleUpdateOrganization)
 			r.Delete("/organizations/{id}", app.OrganizationHandler.HandleDeleteOrganization)
 		})
+
+		r.Get("/organizations/me", app.OrganizationHandler.HandleCurrentOrganization)
+
+		r.Get("/me", app.UserHandler.HandleGetCurrentUser)
 
 		r.Post("/users", app.UserHandler.HandleCreateUser)
 
